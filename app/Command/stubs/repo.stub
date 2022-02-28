@@ -1,0 +1,55 @@
+<?php
+
+namespace %NAMESPACE%;
+
+use App\Entity\PaginatorQo;
+use Hyperf\Contract\LengthAwarePaginatorInterface;
+use App\Model\%MODEL%;
+
+class %CLASS%
+{
+    public function paginator(PaginatorQo $qo, $%QO%): LengthAwarePaginatorInterface
+    {
+        $query = %MODEL%::query();
+        //TODO::
+
+        return $query->paginate($qo->pageSize, ['*'], 'page', $qo->currentPage);
+    }
+
+    public function findFromCache($id)
+    {
+        return %MODEL%::findFromCache($id);
+    }
+
+    public function find($id)
+    {
+        return %MODEL%::find($id);
+    }
+
+    public function add(EditStoreUserDto $dto)
+    {
+        $model = new %MODEL%();
+        $model->fill($dto->getData());
+        $model->save();
+
+        return $model;
+    }
+
+    public function edit(EditStoreUserDto $dto)
+    {
+        $model = %MODEL%::findFromCache($dto->id);
+        $model->fill($dto->getData());
+        $model->save();
+
+        return $model;
+    }
+
+    public function destroy($id): ?bool
+    {
+        $model = %MODEL%::findFromCache($id);
+        $model->delete();
+
+        return true;
+    }
+
+}

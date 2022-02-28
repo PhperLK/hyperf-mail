@@ -1,0 +1,43 @@
+<?php
+
+namespace %NAMESPACE%;
+
+use App\Entity\PaginatorQo;
+use Hyperf\Di\Annotation\Inject;
+use App\Repo\%PATH%\%INJECT_NAME%;
+use Hyperf\Paginator\LengthAwarePaginator;
+
+class %CLASS%
+{
+    /**
+     * @var %INJECT_NAME%
+     * @Inject
+     */
+    protected %INJECT_NAME% $repo;
+
+    public function paginator(PaginatorQo $qo, $%QO%): LengthAwarePaginator
+    {
+        return $this->repo->paginator($qo, $%QO%);
+    }
+
+    public function detail($id)
+    {
+        return $this->repo->findFromCache($id);
+    }
+
+    public function edit($dto): bool
+    {
+        if ($dto->id) {
+            $this->repo->edit($dto);
+        } else {
+            $this->repo->add($dto);
+        }
+        return true;
+    }
+
+    public function destroy($id): ?bool
+    {
+        return $this->repo->destroy($id);
+    }
+
+}
